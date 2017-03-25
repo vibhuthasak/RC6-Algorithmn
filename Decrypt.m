@@ -19,28 +19,27 @@ function [f_cip,f_ori] = Decrypt(encrypted_sentence,s)
     C = rem((C - s(2*r+3)),mod);
     A = rem((A - s(2*r+2)),mod);
     
-    for j = 1:r+1
-        i = r+1-j;
+    for j = 1:r
+        i = (r+1)-j;
         L = [D,A,B,C];
         A = L(1);
         B = L(2);
         C = L(3);
         D = L(4);
-        
         u_temp = rem((D*(2*D+1)),mod);
         u = rotate_left(u_temp,lgw);
         t_temp = rem((B*(2*B+1)),mod);
         t = rotate_left(t_temp,lgw);
-        tmod = abs(rem(t,32));
-        umod = abs(rem(t,32));
+        tmod = rem(t,32);
+        umod = rem(t,32);
        
         C = bitxor((rotate_right(rem((C-s(2*i+1)),mod),tmod)),u);
         A = bitxor(rotate_right(rem((A-s(2*i)),mod),umod),t);
         
     end
     
-    D = rem((D - s(1)),mod);
-    B = rem((B - s(0)),mod);
+    D = rem((D - s(2)),mod);
+    B = rem((B - s(1)),mod);
     
     orgi = zeros(1,4);
     orgi(1) = A;

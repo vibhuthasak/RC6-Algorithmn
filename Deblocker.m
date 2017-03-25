@@ -5,6 +5,10 @@ function sr = Deblocker(blocks)
     for i=1:len
         value = blocks{i};
         temp = dec2bin(value,8);
+        length(temp);
+        if length(temp) > 32
+            temp = temp(1:32);
+        end
         arc = 32-(length(temp));
         if length(temp) < 32
             zeroadd = '0';
