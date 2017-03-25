@@ -9,5 +9,5 @@ function rundecrypt
     [orgi,cipher] = Decrypt(encrypted_sentence,keygen);
     cell_orgi = num2cell(orgi);
     decrypted_sentence = Deblocker(cell_orgi);
-    decrypted_sentence
+    decrypted_sentence;
 end
