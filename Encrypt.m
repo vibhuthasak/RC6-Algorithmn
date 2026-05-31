@@ -12,18 +12,16 @@ function [f_ori,f_cip] = Encrypt(sentence,s)
     orgi(3) = C;
     orgi(4) = D;
     
-    r = 12;
+    r = 20;
     mod = 2.^32;
     lgw = 5;
-    
+
     B = rem((B + s(1)),mod);
-    D = rem((B + s(2)),mod);
-  
-    for i = 1:1:r+1
-        t_temp = rem((B*(2*B + 1)),mod); 
-        t = rotate_left(t_temp,lgw);
-        u_temp = rem((D*(2*D + 1)),mod);
-        u = rotate_left(u_temp,lgw);
+    D = rem((D + s(2)),mod);
+
+    for i = 1:1:r
+        t = rotate_left(quad32(B),lgw);
+        u = rotate_left(quad32(D),lgw);
         tmod = rem(t,32);
         umod = rem(u,32);
         

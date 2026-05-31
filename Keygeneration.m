@@ -1,5 +1,5 @@
 function s_fin = Keygeneration(userkey)
-    r = 12;
+    r = 20;
     w = 32;
     b = length(userkey);
     mod = 2.^32;
