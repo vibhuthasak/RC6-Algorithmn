@@ -12,12 +12,12 @@ function [f_cip,f_ori] = Decrypt(encrypted_sentence,s)
     cipher(3) = C;
     cipher(4) = D;
     
-    r = 12;
+    r = 20;
     mod = 2.^32;
     lgw = 5;
-   
-    C = rem((C - s(2*r+3)),mod);
-    A = rem((A - s(2*r+2)),mod);
+
+    C = rem((C - s(2*r+3) + mod),mod);
+    A = rem((A - s(2*r+2) + mod),mod);
     
     for j = 1:r
         i = (r+1)-j;
@@ -26,20 +26,18 @@ function [f_cip,f_ori] = Decrypt(encrypted_sentence,s)
         B = L(2);
         C = L(3);
         D = L(4);
-        u_temp = rem((D*(2*D+1)),mod);
-        u = rotate_left(u_temp,lgw);
-        t_temp = rem((B*(2*B+1)),mod);
-        t = rotate_left(t_temp,lgw);
+        u = rotate_left(quad32(D),lgw);
+        t = rotate_left(quad32(B),lgw);
         tmod = rem(t,32);
-        umod = rem(t,32);
+        umod = rem(u,32);
        
-        C = bitxor((rotate_right(rem((C-s(2*i+1)),mod),tmod)),u);
-        A = bitxor(rotate_right(rem((A-s(2*i)),mod),umod),t);
+        C = bitxor((rotate_right(rem((C-s(2*i+1) + mod),mod),tmod)),u);
+        A = bitxor(rotate_right(rem((A-s(2*i) + mod),mod),umod),t);
         
     end
     
-    D = rem((D - s(2)),mod);
-    B = rem((B - s(1)),mod);
+    D = rem((D - s(2) + mod),mod);
+    B = rem((B - s(1) + mod),mod);
     
     orgi = zeros(1,4);
     orgi(1) = A;
